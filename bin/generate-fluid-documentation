@@ -19,6 +19,8 @@ $publicUrlPrefix = rtrim(($argv[2] ?? 'file://' . $publicDirectory) ?: 'file://'
 $force = (bool) ($argv[3] ?? false);
 
 $resolver = DataFileResolver::getInstance($pwd);
+// TODO: Add argument to define the exporter to use, or to blacklist exporter to use?
+// This would allow to only export into formats that are wanted.
 $exporters = [
     new XsdExporter($publicUrlPrefix),
     new JsonExporter($publicUrlPrefix),

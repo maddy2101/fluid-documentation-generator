@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace NamelessCoder\FluidDocumentationGenerator\Export;
 
+use NamelessCoder\FluidDocumentationGenerator\Converter\MarkdownToRstConverter;
 use NamelessCoder\FluidDocumentationGenerator\Data\DataFileResolver;
 use NamelessCoder\FluidDocumentationGenerator\Entity\SchemaPackage;
 use NamelessCoder\FluidDocumentationGenerator\Entity\SchemaVendor;
@@ -164,11 +165,21 @@ class RstExporter implements ExporterInterface
             }
             $arguments[] = $argumentsData;
         }
+
+        $description = $viewHelperDocumentation->getDescription();
+
+        // This is a hack! There should be a different way to configure or detect whether some conversion has to happen.
+        // This involves the input and output combination.
+        if (in_array($viewHelperDocumentation->getSchema()->getSchema()->getPackage()->getFullyQualifiedName(), ['typo3fluid/fluid'])) {
+            $description = (new MarkdownToRstConverter())->convert($viewHelperDocumentation->getDescription());
+        }
+
         $this->view->assignMultiple([
             'headline' => $headline,
             'headlineDecoration' => implode('', $headlineDecoration),
             'rootPath' => $rootPath,
             'viewHelper' => $viewHelperDocumentation,
+            'description' => $description,
             'arguments' => $arguments,
         ]);
         $resolver->getWriter()->publishDataFileForSchema(
