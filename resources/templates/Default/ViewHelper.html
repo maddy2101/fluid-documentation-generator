@@ -12,6 +12,16 @@
     <h2><code>{f:if(condition: metadata.namespace.alias, then: '{metadata.namespace.alias}:')}{viewHelper.name}</code></h2>
 
     <section class="divider">
+        <h4>Fluid XML namespace</h4>
+        <p>
+            <code>&lt;html ...
+                <strong>xmlns:{viewHelper.schema.schema.package.packageName}="{viewHelper.schema.fluidNamespace}"</strong>
+                data-namespace-typo3-fluid="true"&gt;
+            </code>
+        </p>
+    </section>
+
+    <section class="divider">
         <f:if condition="{viewHelper.description}">
             <f:then>
                 {viewHelper.descriptionAsMarkup -> f:format.raw()}

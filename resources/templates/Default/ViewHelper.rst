@@ -6,6 +6,14 @@
 {headline}
 {headlineDecoration}
 
+Fluid XML namespace
+-------------------
+
+.. code-block:: html
+
+   <html ...
+       xmlns:{viewHelper.schema.schema.package.packageName}="{viewHelper.schema.fluidNamespace}"
+       data-namespace-typo3-fluid="true>
 
 {viewHelper.description -> f:format.raw()}
 

@@ -77,6 +77,14 @@ class ViewHelperDocumentation
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
+    public function getViewHelperName(): string
+    {
+        return $this->viewHelperName;
+    }
+
     public function getPathToSchemaRoot(): string
     {
         return str_repeat('../', substr_count($this->viewHelperName, '.'));

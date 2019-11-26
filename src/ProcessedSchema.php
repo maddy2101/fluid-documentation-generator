@@ -24,6 +24,11 @@ class ProcessedSchema
      */
     private $viewHelpersDocumentations = [];
 
+    /**
+     * @var string|null
+     */
+    private $fluidNamespace;
+
     public function __construct(Schema $schema)
     {
         $this->schema = $schema;
@@ -61,11 +66,37 @@ class ProcessedSchema
         return $this->viewHelpersDocumentations;
     }
 
+    /**
+     * @return ViewHelperDocumentationGroup
+     */
+    public function getViewHelperDocumentationRootGroup(): ViewHelperDocumentationGroup
+    {
+        return $this->viewHelperDocumentationRootGroup;
+    }
+
+    /**
+     * @return ViewHelperDocumentation[]
+     */
+    public function getViewHelpersDocumentations(): array
+    {
+        return $this->viewHelpersDocumentations;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFluidNamespace(): ?string
+    {
+        return $this->fluidNamespace;
+    }
+
     private function processXmlFile(): array
     {
         $json = [];
         $xmlFilePath = DataFileResolver::getInstance()->resolveSchemaFileLocation($this->schema);
         $xmlDocument = simplexml_load_file($xmlFilePath);
+        $targetNamespace = $xmlDocument->xpath('/xsd:schema[@targetNamespace]')[0]['targetNamespace'];
+        $this->fluidNamespace = $targetNamespace ? (string)$targetNamespace : null;
         foreach ($xmlDocument->xpath('/xsd:schema/xsd:element') as $element) {
             $name = (string)$element->attributes()['name'];
             $group = $this->findOrCreateViewHelperDocumentationGroupByViewHelperName($name);
