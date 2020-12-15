@@ -1,6 +1,7 @@
 {
   "name": "namelesscoder/fluid-documentation-generator",
   "require": {
+    "ext-simplexml": "*",
     "typo3fluid/fluid": "dev-master",
     "php": "^7.1",
     "cebe/markdown": "^1.2"
